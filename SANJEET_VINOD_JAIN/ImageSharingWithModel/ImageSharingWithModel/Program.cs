@@ -31,12 +31,15 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-// TODO add database context & enable saving data in the log (not for production use!)
-
+// TODO-DONE add database context & enable saving data in the log (not for production use!)
+string connectionString = builder.Configuration["Data:ConnectionStrings:ImageSharingDB"];
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+} );
 
 // Replacement for database error page
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 /*
  * Configure logging to go the console (local testing only!).
  */
@@ -73,13 +76,20 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
-/*
- * TODO Seed the database: We need to manually inject the dependencies of the initalizer.
+/* 
+ * TODO-DONE Seed the database: We need to manually inject the dependencies of the initalizer.
  * EF services are scoped to a request, so we must create a temporary scope for its injection.
  * More on dependency injection: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection
  * More on DbContext lifetime: https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/
  */
+using (var serviceScope = app.Services.CreateScope())
+{
+    var serviceProvider = serviceScope.ServiceProvider;
+    var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
+    var logger = serviceProvider.GetRequiredService<ILogger<ApplicationDbInitializer>>();
 
+    await new ApplicationDbInitializer(db, logger).SeedDatabase();
+}
 
 /*
  * Finally, run the application!

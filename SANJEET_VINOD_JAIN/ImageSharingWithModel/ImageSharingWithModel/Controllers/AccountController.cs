@@ -109,7 +109,9 @@ namespace ImageSharingWithModel.Controllers
 
         protected void SaveCookie(String key, String value)
         {
-            // TODO save the value in a cookie field key
+            // TODO-DONE save the value in a cookie field key DONE
+            var options = new CookieOptions() { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
+            Response.Cookies.Append(key, value, options);
 
         }
 

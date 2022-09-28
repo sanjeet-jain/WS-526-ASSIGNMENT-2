@@ -33,7 +33,7 @@ namespace ImageSharingWithModel.DAL
             db.RemoveRange(db.Images);
             db.RemoveRange(db.Tags);
             db.RemoveRange(db.Users);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             logger.LogDebug("Initializing the database...");
             User jfk = new User { Username = "jfk", ADA = false };
