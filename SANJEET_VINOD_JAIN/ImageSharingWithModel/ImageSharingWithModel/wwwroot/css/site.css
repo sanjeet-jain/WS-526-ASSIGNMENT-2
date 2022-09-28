@@ -1,18 +1,18 @@
 ﻿body {
     background: #666666;
-    color: #000000;
-    font-family: Verdana, Arial, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
+    color: #000000;
+    font-family: Verdana, Arial, Helvetica, Sans-Serif;
 }
 
 .twoColumnHdrFtr #container {
-    background: #ffffff;
-    border: 1px solid #000000;
-    margin: 0 auto;
     max-width: 90vw;
     min-height: 90vh;
     overflow: hidden;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #000000;
     text-align: left;
 }
 
@@ -22,32 +22,34 @@
 }
 
 .twoColumnHdrFtr #header h1 {
-    margin: 0;
     text-align: center;
+    margin: 0;
     /* padding: 10px; */
 }
 
 .twoColumnHdrFtr #sidebar {
-    background: #ebebeb;
     float: left;
-    font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
-    padding: 10px;
     width: 30%;
+    background: #ebebeb;
+    padding: 10px;
+    font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
 }
 
-.twoColumnHdrFtr #sidebar h1 { font-size: 100%; }
+.twoColumnHdrFtr #sidebar h1 {
+    font-size: 100%;
+}
 
 #nav {
+    padding: 5px 10px;
     /* background:#c99; */
     font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
     font-size: 100%;
-    padding: 5px 10px;
 }
 
 #nav ul {
-    list-style: none;
     margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 #nav li {
@@ -58,18 +60,20 @@
 
 .twoColumnHdrFtr #content {
     float: left;
-    font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
-    padding: 10px;
     width: 70%;
+    padding: 10px;
+    font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
 }
 
 .twoColumnHdrFtr #footer {
     background-color: white;
-    border: 1px solid #000000;
+    width: 90vw;
     margin: 0 auto;
     padding: 0;
     padding: 10px;
-    width: 90vw;
+    border: 1px solid #000000;
 }
 
-.twoColumnHdrFtr #footer p { font-size: x-small; }
+.twoColumnHdrFtr #footer p {
+    font-size: x-small;
+}
