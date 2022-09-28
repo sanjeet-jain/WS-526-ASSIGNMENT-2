@@ -36,10 +36,10 @@ namespace ImageSharingWithModel.DAL
             await db.SaveChangesAsync();
 
             logger.LogDebug("Initializing the database...");
-            User jfk = new User { Username = "jfk", ADA = false };
-            await db.Users.AddAsync(jfk);
-            User nixon = new User { Username = "nixon", ADA = false };
-            await db.Users.AddAsync(nixon);
+            User sanjeet = new User { Username = "sanjeet", ADA = false };
+            await db.Users.AddAsync(sanjeet);
+            User sanjeetADA = new User { Username = "sanjeetADA", ADA = true };
+            await db.Users.AddAsync(sanjeetADA);
 
             Tag portrait = new Tag { Name = "portrait" };
             await db.Tags.AddAsync(portrait);

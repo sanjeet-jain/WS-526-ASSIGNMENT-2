@@ -12,7 +12,7 @@ namespace ImageSharingWithModel.Models
         public int Id { get; set; }
 
         [Required]
-        [RegularExpression(@"[a-zA-Z0-9_]+")]
+        [RegularExpression(@"[a-zA-Z0-9_]+", ErrorMessage ="UserName must be numbers and letters only without spaces!")]
         public String Username { get; set; }
 
         [Required]

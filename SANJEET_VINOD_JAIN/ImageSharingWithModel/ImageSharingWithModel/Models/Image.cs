@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ImageSharingWithModel.Models
 {
+    [Table("Image")]
     public class Image
         /*
          * Entity model for an image.

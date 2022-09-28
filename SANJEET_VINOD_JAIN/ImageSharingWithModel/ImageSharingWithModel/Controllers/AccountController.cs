@@ -27,7 +27,8 @@ namespace ImageSharingWithModel.Controllers
             this.logger = logger;
         }
 
-        //TODO
+        //TODO-DONE
+        [HttpGet]
         public ActionResult Register()
         {
             CheckAda();
@@ -39,7 +40,8 @@ namespace ImageSharingWithModel.Controllers
             return View();
         }
 
-        //TODO
+        //TODO-DONE
+        [HttpPost]
         public async Task<IActionResult> Register(UserView info)
         {
             CheckAda();
@@ -52,17 +54,21 @@ namespace ImageSharingWithModel.Controllers
                     // Save to database
                     User = new User(info.Username, info.IsADA());
                     db.Users.Add(User);
+                logger.LogDebug("Successfully registered: " + info.Username);
                 }
                 else
                 {
-                    User.ADA = info.IsADA();
-                    db.Entry(User).State = EntityState.Modified;
+                    //TODO-DONE Check if user exists, if it does handle issue gracefully
+                    logger.LogDebug("Existing User Detected: " + info.Username);
+                    ViewBag.Message = "User Already Exists! Please Login";
+                    return View(info);
+                    //since user exists dont change anything
+                    //User.ADA = info.IsADA();
+                    //db.Entry(User).State = EntityState.Modified;
                 }
 
+
                 await db.SaveChangesAsync();
-
-                logger.LogDebug("Successfully registered: " + info.Username);
-
                 SaveCookie("ADA", User.ADA.ToString());
 
                 return RedirectToAction("Index", "Home", new { Username = info.Username });
@@ -70,12 +76,13 @@ namespace ImageSharingWithModel.Controllers
             else
             {
                 ViewBag.Message = "Input validation errors!";
-                return View();
+                return View(info);
             }
 
         }
 
         //TODO
+        [HttpGet]
         public ActionResult Login()
         {
             CheckAda();
@@ -84,6 +91,7 @@ namespace ImageSharingWithModel.Controllers
         }
 
         //TODO
+        [HttpPost]
         public async Task<IActionResult> Login(UserView info)
         {
             CheckAda();
