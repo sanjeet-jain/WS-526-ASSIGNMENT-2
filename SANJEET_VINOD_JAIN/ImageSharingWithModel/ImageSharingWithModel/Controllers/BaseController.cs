@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ImageSharingWithModel.Controllers
+namespace ImageSharingWithModel.Controllers;
+
+public class BaseController : Controller
 {
-    public class BaseController : Controller
+    protected void CheckAda()
     {
-        protected void CheckAda()
-        {
-            ViewBag.isADA = GetADAFlag();
-        }
+        ViewBag.isADA = GetADAFlag();
+    }
 
-        protected Boolean GetADAFlag()
-        {
-            var cookie = Request.Cookies["ADA"];
-            return (cookie != null && "true".Equals(cookie));
-        }
+    protected bool GetADAFlag()
+    {
+        var cookie = Request.Cookies["ADA"];
+        return cookie != null && "true".Equals(cookie);
+    }
 
-        protected String GetLoggedInUser()
-        {
-            return Request.Cookies["Username"];
-        }
+    protected string GetLoggedInUser()
+    {
+        return Request.Cookies["Username"];
+    }
 
-        protected ActionResult ForceLogin()
-        {
-            return RedirectToAction("Login", "Account");
-        }
+    protected ActionResult ForceLogin()
+    {
+        return RedirectToAction("Login", "Account");
     }
 }

@@ -2,13 +2,11 @@ using ImageSharingWithModel.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 /*
  * Add services to the container.
@@ -32,11 +30,8 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 // TODO-DONE add database context & enable saving data in the log (not for production use!)
-string connectionString = builder.Configuration["Data:ConnectionStrings:ImageSharingDB"];
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(connectionString);
-} );
+var connectionString = builder.Configuration["Data:ConnectionStrings:ImageSharingDB"];
+builder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connectionString); });
 
 // Replacement for database error page
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -47,7 +42,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -72,8 +67,8 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        "default",
+        "{controller=Home}/{action=Index}/{id?}");
 });
 
 /* 

@@ -13,34 +13,35 @@
         <legend>Enter Image Information</legend>
         <p>
             Caption: <!-- TODO -->
-            <input asp-for="Caption" /><span asp-validation-for="Caption" />
+            <input asp-for="Caption"/><span asp-validation-for="Caption"/>
         </p>
         <p>
-            Select a tag:  <!-- TODO -->
+            Select a tag: <!-- TODO -->
             <select asp-for="TagId" asp-items="Model.Tags">
                 <option disabled selected value="">Select a tag</option>
             </select>
         </p>
         <p>
-            Description:<br /> <!-- TODO -->
+            Description:<br/> <!-- TODO -->
             <textarea asp-for="Description" cols="40" rows="5">
                 Enter description here.
             </textarea>
         </p>
         <p>
-            Date taken:  <!-- TODO -->
-            <input asp-for="DateTaken" /><span asp-validation-for="DateTaken
-                                                           " />
+            Date taken: <!-- TODO -->
+            <input asp-for="DateTaken"/><span asp-validation-for="DateTaken"/>
         </p>
         <p>
-            <input asp-for="ImageFile" />
+            <input asp-for="ImageFile"/>
         </p>
         <p>
-            <input type="submit" value="Upload" />
+            <input type="submit" value="Upload"/>
         </p>
     </fieldset>
 
     <p>@ViewBag.Message</p>
-    <p><div class="text-danger" asp-validation-summary="ModelOnly"></div></p>
+    <p>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    </p>
 
 </form>

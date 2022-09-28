@@ -1,27 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
+namespace ImageSharingWithModel.Models;
 
-namespace ImageSharingWithModel.Models
+public class UserView
 {
-    public class UserView
+    public int Id { get; set; }
+
+    [Required]
+    [RegularExpression(@"[a-zA-Z0-9_]+", ErrorMessage = "UserName must be numbers and letters only without spaces!")]
+    public string Username { get; set; }
+
+    [Required] public bool ADA { get; set; }
+
+    public bool IsADA()
     {
-        public int Id { get; set; }
-
-        [Required]
-        [RegularExpression(@"[a-zA-Z0-9_]+", ErrorMessage ="UserName must be numbers and letters only without spaces!")]
-        public String Username { get; set; }
-
-        [Required]
-        public bool ADA { get; set; }
-
-        public bool IsADA()
-        {
-            // return "on".Equals(ADA);
-            return ADA;
-        }
+        // return "on".Equals(ADA);
+        return ADA;
     }
 }

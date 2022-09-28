@@ -4,7 +4,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@model ImageSharingWithModel.Models.UserView
+@model UserView
 
 <form method="post" asp-action="Register" asp-controller="Account">
 
@@ -12,19 +12,21 @@
         <legend> Provide User Information</legend>
         <p>
             Choose a user name:
-            <input asp-for="Username" /><span asp-validation-for="Username" />
+            <input asp-for="Username"/><span asp-validation-for="Username"/>
         </p>
         <p>
             Check if visually impaired:
-            <input asp-for="ADA" /><span asp-validation-for="ADA" />
+            <input asp-for="ADA"/><span asp-validation-for="ADA"/>
         </p>
         <p>
-            <input type="submit" value="Register" />
+            <input type="submit" value="Register"/>
 
         </p>
     </fieldset>
 
     <p>@ViewBag.Message</p>
-    <p><div class="text-danger" asp-validation-summary="All"></div></p>
+    <p>
+        <div class="text-danger" asp-validation-summary="All"></div>
+    </p>
 
 </form>

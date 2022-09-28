@@ -11,14 +11,16 @@
     <fieldset>
         <legend>Enter Your Userid</legend>
         <p>
-            Username: <input asp-for="Username" /><span asp-validation-for="Username" />
+            Username: <input asp-for="Username"/><span asp-validation-for="Username"/>
         </p>
         <p>
-            <input type="submit" value="Login" />
+            <input type="submit" value="Login"/>
         </p>
     </fieldset>
 
     <p>@ViewBag.Message</p>
-    <p><div class="text-danger" asp-validation-summary="ModelOnly"></div></p>
+    <p>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    </p>
 
 </form>

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace ImageSharingWithModel.Models
+namespace ImageSharingWithModel.Models;
+
+public class ListByTagViewModel
 {
-    public class ListByTagViewModel
-    {
-        public int Id { get; set; }
-        public IEnumerable<SelectListItem> Tags { get; set; }
-    }
+    public int Id { get; set; }
+    public IEnumerable<SelectListItem> Tags { get; set; }
 }
