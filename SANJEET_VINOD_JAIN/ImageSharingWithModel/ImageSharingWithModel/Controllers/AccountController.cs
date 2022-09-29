@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using ImageSharingWithModel.DAL;
 using ImageSharingWithModel.Models;
@@ -65,7 +66,7 @@ public class AccountController : BaseController
 
 
             await db.SaveChangesAsync();
-            SaveCookie("ADA", User.ADA.ToString());
+            SaveCookie("ADA", User.ADA.ToString().ToLower());
 
             return RedirectToAction("Index", "Home", new { info.Username });
         }
@@ -104,14 +105,13 @@ public class AccountController : BaseController
     protected void SaveCookies(string username, bool ADA)
     {
         SaveCookie("Username", username);
-        SaveCookie("ADA", ADA.ToString());
+        SaveCookie("ADA", ADA.ToString().ToLower());
     }
 
     protected void SaveCookie(string key, string value)
     {
         // TODO-DONE save the value in a cookie field key DONE
-        var options = new CookieOptions
-            { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
+        var options = new CookieOptions { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
         Response.Cookies.Append(key, value, options);
     }
 }
