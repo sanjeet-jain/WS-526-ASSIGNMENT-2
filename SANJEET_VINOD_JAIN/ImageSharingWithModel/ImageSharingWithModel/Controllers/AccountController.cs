@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using ImageSharingWithModel.DAL;
 using ImageSharingWithModel.Models;
@@ -111,7 +110,8 @@ public class AccountController : BaseController
     protected void SaveCookie(string key, string value)
     {
         // TODO-DONE save the value in a cookie field key DONE
-        var options = new CookieOptions { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
+        var options = new CookieOptions
+            { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
         Response.Cookies.Append(key, value, options);
     }
 }
