@@ -7,7 +7,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" style="display: flex;flex-direction: column;" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
+<form method="post" class="form-group"   style="display: flex;flex-direction: column;" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
     <div>
 
         <p>@ViewBag.Message</p>
@@ -20,29 +20,34 @@
         <fieldset>
             <legend>Enter Image Information</legend>
             <p>
-                Caption: <!-- TODO -->
+
+                Caption: <!-- TODO-DONE -->
                 <input asp-for="Caption"/>
+                <br/>
                 <span class="text-danger" asp-validation-for="Caption"></span>
             </p>
             <p>
-                Select a tag: <!-- TODO -->
+                Select a tag: <!-- TODO-DONE -->
                 <select asp-for="TagId" asp-items="Model.Tags">
                     <option disabled selected value="">Select a tag</option>
                 </select>
+                <br/>
                 <span class="text-danger" asp-validation-for="TagId"></span>
 
             </p>
             <p>
-                Description:<br/> <!-- TODO -->
+                Description:<br/> <!-- TODO-DONE -->
                 <textarea asp-for="Description" cols="40" rows="5">
                 Enter description here.
             </textarea>
+                <br/>
                 <span class="text-danger" asp-validation-for="Description"></span>
 
             </p>
             <p>
-                Date taken: <!-- TODO -->
+                Date taken: <!-- TODO-DONE -->
                 <input asp-for="DateTaken"/><span asp-validation-for="DateTaken"/>
+                <br/>
                 <span class="text-danger" asp-validation-for="DateTaken"></span>
 
 
@@ -51,6 +56,7 @@
                 <input asp-for="ImageFile"/>
                 @if (ViewBag.ImageNotUploaded)
                 {
+                <br/>
                     <span class="text-danger">@ViewBag.ImageErrorMessage</span>
                 }
 

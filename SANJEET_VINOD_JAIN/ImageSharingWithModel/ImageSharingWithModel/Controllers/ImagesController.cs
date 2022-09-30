@@ -107,7 +107,7 @@ public class ImagesController : BaseController
         }
 
 
-        // TODO save image metadata in the database
+        // TODO-DONE save image metadata in the database
         var selectedTag = await db.Tags.SingleOrDefaultAsync(x => x.Id.Equals(imageView.TagId));
         
         var metadataImage = new Image
@@ -126,7 +126,7 @@ public class ImagesController : BaseController
 
         mkDirectories();
 
-        // TODO save image file on disk
+        // TODO-DONE save image file on disk
         using (var DestinationStream = SysIOFile.Create(imageDataFile(metadataImage.Id)))
         {
             await imageView.ImageFile.CopyToAsync(DestinationStream);
@@ -172,7 +172,8 @@ public class ImagesController : BaseController
         return View(imageView);
     }
 
-    //TODO
+    //TODO-DONE
+    [HttpGet]
     public async Task<IActionResult> Edit(int Id)
     {
         CheckAda();
@@ -199,7 +200,8 @@ public class ImagesController : BaseController
         return View("Edit", imageView);
     }
 
-    //TODO
+    //TODO-DONE
+    [HttpPost]
     public async Task<IActionResult> DoEdit(int Id, ImageView imageView)
     {
         CheckAda();
@@ -211,6 +213,12 @@ public class ImagesController : BaseController
             ViewBag.Message = "Please correct the errors on the page";
             imageView.Id = Id;
             imageView.Tags = new SelectList(db.Tags, "Id", "Name", imageView.TagId);
+            if (ModelState["DateTaken"]?.Errors.Count > 0)
+            {
+
+                ModelState["DateTaken"].Errors.Clear();
+                ModelState.AddModelError("DateTaken", "Please Enter Valid Date");
+            }
             return View("Edit", imageView);
         }
 
@@ -231,7 +239,8 @@ public class ImagesController : BaseController
         return RedirectToAction("Details", new { Id });
     }
 
-    //TODO
+    //TODO-DONE
+    [HttpGet]
     public async Task<IActionResult> Delete(int Id)
     {
         CheckAda();
@@ -259,7 +268,8 @@ public class ImagesController : BaseController
         return View(imageView);
     }
 
-    //TODO
+    //TODO-DONE
+    [HttpPost]
     public async Task<IActionResult> DoDelete(int Id)
     {
         CheckAda();
@@ -279,7 +289,8 @@ public class ImagesController : BaseController
         return RedirectToAction("Index", "Home");
     }
 
-    //TODO
+    //TODO-DONE
+    [HttpGet]
     public IActionResult ListAll()
     {
         CheckAda();
@@ -291,19 +302,23 @@ public class ImagesController : BaseController
         return View(images);
     }
 
-    //TODO
+    //TODO-DONE
+    [HttpGet]
     public IActionResult ListByUser()
     {
         CheckAda();
         if (GetLoggedInUser() == null) return ForceLogin();
 
         // TODO Return form for selecting a user from a drop-down list
+        ListByUserView userView = new ListByUserView();
+        userView.Users = new SelectList(db.Users, "Id", "Username", 1);
 
         // TODO
-        return View();
+        return View(userView);
     }
 
     //TODO
+    [HttpPost]
     public async Task<IActionResult> DoListByUser(ListByUserView userView)
     {
         CheckAda();
@@ -311,12 +326,19 @@ public class ImagesController : BaseController
         if (Username == null) return ForceLogin();
 
         // TODO list all images uploaded by the user in userView (see List By Tag)
-
+        var user = await db.Users.FindAsync(userView.Id);
+        if (user == null) return RedirectToAction("Error", "Home", new { ErrId = "ListByUser" });
+        ViewBag.Username = Username;
+        /*
+         * Eager loading of related entities
+         */
+        var images = db.Entry(user).Collection(t => t.Images).Query().Include(im => im.User).Include(t=>t.Tag).ToList();
         // TODO
-        return View();
+        return View("ListAll", user.Images);
     }
 
     //TODO
+    [HttpGet]
     public IActionResult ListByTag()
     {
         CheckAda();
@@ -328,6 +350,7 @@ public class ImagesController : BaseController
     }
 
     //TODO
+    [HttpPost]
     public async Task<IActionResult> DoListByTag(ListByTagViewModel tagView)
     {
         CheckAda();
