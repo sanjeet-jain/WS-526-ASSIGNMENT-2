@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ImageSharingWithModel.DAL;
 using ImageSharingWithModel.Models;
@@ -11,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ImageSharingWithModel.Controllers;
+
+using SysIOFile = System.IO.File;
 
 public class ImagesController : BaseController
 {
@@ -48,7 +52,8 @@ public class ImagesController : BaseController
     }
 
 
-    //TODO
+    //TODO-DONE
+    [HttpGet]
     public ActionResult Upload()
     {
         CheckAda();
@@ -61,7 +66,8 @@ public class ImagesController : BaseController
         return View(imageView);
     }
 
-    //TODO
+    //TODO-DONE
+    [HttpPost]
     public async Task<IActionResult> Upload(ImageView imageView)
     {
         CheckAda();
@@ -93,15 +99,28 @@ public class ImagesController : BaseController
             return View(imageView);
         }
 
-        // TODO save image metadata in the database 
-
-
+        // TODO save image metadata in the database
+        var selectedTag = db.Tags.Where(x => x.Id == imageView.TagId).Select(x => x).ToList()[0];
+        Image metadataImage = new Image
+        {
+            //Id = 0,
+            Caption = imageView.Caption,
+            Description = imageView.Description,
+            DateTaken = imageView.DateTaken,
+            UserId = user.Id,
+            TagId = selectedTag.Id,
+        };
+        await db.Images.AddAsync(metadataImage);
+        await db.SaveChangesAsync();
         // end TODO
 
         mkDirectories();
 
         // TODO save image file on disk
-
+        using (FileStream DestinationStream = SysIOFile.Create(imageDataFile(imageView.Id)))
+        {
+            await imageView.ImageFile.CopyToAsync(DestinationStream);
+        }
 
         // end TODO
 

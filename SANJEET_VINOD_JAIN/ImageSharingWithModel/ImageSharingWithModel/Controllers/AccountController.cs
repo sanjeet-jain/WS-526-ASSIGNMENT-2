@@ -74,7 +74,7 @@ public class AccountController : BaseController
         return View(info);
     }
 
-    //TODO
+    //TODO-DONE
     [HttpGet]
     public ActionResult Login()
     {
@@ -83,7 +83,7 @@ public class AccountController : BaseController
         return View();
     }
 
-    //TODO
+    //TODO-DONE
     [HttpPost]
     public async Task<IActionResult> Login(UserView info)
     {
