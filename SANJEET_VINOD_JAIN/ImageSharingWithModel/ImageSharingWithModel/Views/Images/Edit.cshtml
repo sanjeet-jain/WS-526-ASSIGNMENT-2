@@ -8,7 +8,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" class="form-group"   style="display: flex;flex-direction: column;" asp-action="DoEdit" asp-controller="Images">
+<form method="post" class="form-group" style="display: flex; flex-direction: column;" asp-action="DoEdit" asp-controller="Images">
     <div>
         <p class="text-danger">@ViewBag.Message</p>
         <p>
@@ -17,52 +17,51 @@
     </div>
     <div>
 
-    <fieldset>
-        <legend>Edit Image Information</legend>
+        <fieldset>
+            <legend>Edit Image Information</legend>
 
-        <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="Id"/>
 
-        <p>
-            <img class="img-thumbnail" src="~/@(ImagesController.imageContextPath(Model.Id))"/>
-        </p>
+            <p>
+                <img class="img-thumbnail" src="~/@(ImagesController.imageContextPath(Model.Id))"/>
+            </p>
 
-        <p>Image id: @Model.Id</p>
+            <p>Image id: @Model.Id</p>
 
-        <p>
+            <p>
                 Caption: <!-- TODO-DONE -->
-            <input asp-for="Caption"/>
-            <br/>
-            <span class="text-danger" asp-validation-for="Caption"></span>
+                <input asp-for="Caption"/>
+                <br/>
+                <span class="text-danger" asp-validation-for="Caption"></span>
 
-        </p>
-        <p>
+            </p>
+            <p>
                 Select a tag: <!-- TODO-DONE -->
-            <select asp-for="TagId" asp-items="Model.Tags">
-                <option disabled selected value="">Select a tag</option>
-            </select>
-            <br/>
-            <span class="text-danger" asp-validation-for="TagId"></span>
+                <select asp-for="TagId" asp-items="Model.Tags">
+                    <option disabled selected value="">Select a tag</option>
+                </select>
+                <br/>
+                <span class="text-danger" asp-validation-for="TagId"></span>
 
-        </p>
-        <p>
-                Description:<br /> <!-- TODO-DONE -->
-            <textarea asp-for="Description" cols="40" rows="5">Enter description here.</textarea>
-            <br/>
-            <span class="text-danger" asp-validation-for="Description"></span>
-        </p>
-        <p>
+            </p>
+            <p>
+                Description:<br/> <!-- TODO-DONE -->
+                <textarea asp-for="Description" cols="40" rows="5">Enter description here.</textarea>
+                <br/>
+                <span class="text-danger" asp-validation-for="Description"></span>
+            </p>
+            <p>
                 Date taken: <!-- TODO-DONE -->
-            <label asp-for="DateTaken"/>
-            <input asp-for="DateTaken"/>
-            <br />
-            <span class="text-danger" asp-validation-for="DateTaken"></span>
-        </p>
-        <p>
-            <input type="submit" value="Submit Changes"/>
-        </p>
-    </fieldset>
+                <label asp-for="DateTaken"/>
+                <input asp-for="DateTaken"/>
+                <br/>
+                <span class="text-danger" asp-validation-for="DateTaken"></span>
+            </p>
+            <p>
+                <input type="submit" value="Submit Changes"/>
+            </p>
+        </fieldset>
     </div>
 
-   
 
 </form>

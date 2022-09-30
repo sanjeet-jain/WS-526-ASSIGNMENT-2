@@ -82,10 +82,10 @@ public class ImagesController : BaseController
             ViewBag.ImageNotUploaded = true;
             if (ModelState["DateTaken"]?.Errors.Count > 0)
             {
-
                 ModelState["DateTaken"].Errors.Clear();
                 ModelState.AddModelError("DateTaken", "Please Enter Valid Date");
             }
+
             imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
             return View(imageView);
         }
@@ -109,7 +109,7 @@ public class ImagesController : BaseController
 
         // TODO-DONE save image metadata in the database
         var selectedTag = await db.Tags.SingleOrDefaultAsync(x => x.Id.Equals(imageView.TagId));
-        
+
         var metadataImage = new Image
         {
             Caption = imageView.Caption,
@@ -215,10 +215,10 @@ public class ImagesController : BaseController
             imageView.Tags = new SelectList(db.Tags, "Id", "Name", imageView.TagId);
             if (ModelState["DateTaken"]?.Errors.Count > 0)
             {
-
                 ModelState["DateTaken"].Errors.Clear();
                 ModelState.AddModelError("DateTaken", "Please Enter Valid Date");
             }
+
             return View("Edit", imageView);
         }
 
@@ -310,7 +310,7 @@ public class ImagesController : BaseController
         if (GetLoggedInUser() == null) return ForceLogin();
 
         // TODO-DONE Return form for selecting a user from a drop-down list
-        ListByUserView userView = new ListByUserView();
+        var userView = new ListByUserView();
         userView.Users = new SelectList(db.Users, "Id", "Username", 1);
 
         // TODO-DONE
@@ -332,7 +332,8 @@ public class ImagesController : BaseController
         /*
          * Eager loading of related entities
          */
-        var images = db.Entry(user).Collection(t => t.Images).Query().Include(im => im.User).Include(t=>t.Tag).ToList();
+        var images = db.Entry(user).Collection(t => t.Images).Query().Include(im => im.User).Include(t => t.Tag)
+            .ToList();
         // TODO-DONE
         return View("ListAll", user.Images);
     }

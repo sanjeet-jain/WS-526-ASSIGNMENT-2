@@ -7,7 +7,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" class="form-group"   style="display: flex;flex-direction: column;" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
+<form method="post" class="form-group" style="display: flex; flex-direction: column;" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
     <div>
 
         <p>@ViewBag.Message</p>
@@ -56,7 +56,7 @@
                 <input asp-for="ImageFile"/>
                 @if (ViewBag.ImageNotUploaded)
                 {
-                <br/>
+                    <br/>
                     <span class="text-danger">@ViewBag.ImageErrorMessage</span>
                 }
 
