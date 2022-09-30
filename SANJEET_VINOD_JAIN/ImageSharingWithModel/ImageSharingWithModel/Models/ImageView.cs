@@ -18,7 +18,7 @@ public class ImageView
 
     [Required] [StringLength(40)] public string Caption { get; set; }
 
-    [Required] public int TagId { get; set; }
+    [Required] [Range(1,int.MaxValue, ErrorMessage = "Please select a tag from the dropdown")] public int TagId { get; set; }
 
     [Required] [StringLength(200)] public string Description { get; set; }
 

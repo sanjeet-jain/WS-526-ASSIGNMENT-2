@@ -1,47 +1,66 @@
-﻿@model ImageSharingWithModel.Models.ImageView
+﻿@model ImageView
 
 @{
     ViewBag.Title = "Upload an Image";
+    ViewBag.ImageNotUploaded = ViewBag.ImageNotUploaded ?? true;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
+<form method="post" style="display: flex;flex-direction: column;" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
+    <div>
 
+        <p>@ViewBag.Message</p>
+        <p>
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        </p>
+    </div>
+    <div>
 
-    <fieldset>
-        <legend>Enter Image Information</legend>
-        <p>
-            Caption: <!-- TODO -->
-            <input asp-for="Caption"/><span asp-validation-for="Caption"/>
-        </p>
-        <p>
-            Select a tag: <!-- TODO -->
-            <select asp-for="TagId" asp-items="Model.Tags">
-                <option disabled selected value="">Select a tag</option>
-            </select>
-        </p>
-        <p>
-            Description:<br/> <!-- TODO -->
-            <textarea asp-for="Description" cols="40" rows="5">
+        <fieldset>
+            <legend>Enter Image Information</legend>
+            <p>
+                Caption: <!-- TODO -->
+                <input asp-for="Caption"/>
+                <span class="text-danger" asp-validation-for="Caption"></span>
+            </p>
+            <p>
+                Select a tag: <!-- TODO -->
+                <select asp-for="TagId" asp-items="Model.Tags">
+                    <option disabled selected value="">Select a tag</option>
+                </select>
+                <span class="text-danger" asp-validation-for="TagId"></span>
+
+            </p>
+            <p>
+                Description:<br/> <!-- TODO -->
+                <textarea asp-for="Description" cols="40" rows="5">
                 Enter description here.
             </textarea>
-        </p>
-        <p>
-            Date taken: <!-- TODO -->
-            <input asp-for="DateTaken"/><span asp-validation-for="DateTaken"/>
-        </p>
-        <p>
-            <input asp-for="ImageFile"/>
-        </p>
-        <p>
-            <input type="submit" value="Upload"/>
-        </p>
-    </fieldset>
+                <span class="text-danger" asp-validation-for="Description"></span>
 
-    <p>@ViewBag.Message</p>
-    <p>
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-    </p>
+            </p>
+            <p>
+                Date taken: <!-- TODO -->
+                <input asp-for="DateTaken"/><span asp-validation-for="DateTaken"/>
+                <span class="text-danger" asp-validation-for="DateTaken"></span>
+
+
+            </p>
+            <p>
+                <input asp-for="ImageFile"/>
+                @if (ViewBag.ImageNotUploaded)
+                {
+                    <span class="text-danger">@ViewBag.ImageErrorMessage</span>
+                }
+
+            </p>
+
+            <p>
+                <input type="submit" value="Upload"/>
+            </p>
+        </fieldset>
+    </div>
+
 
 </form>

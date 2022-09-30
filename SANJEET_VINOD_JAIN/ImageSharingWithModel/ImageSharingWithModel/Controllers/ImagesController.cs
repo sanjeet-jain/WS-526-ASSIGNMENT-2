@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using ImageSharingWithModel.DAL;
 using ImageSharingWithModel.Models;
@@ -14,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageSharingWithModel.Controllers;
 
-using SysIOFile = System.IO.File;
+using SysIOFile = File;
 
 public class ImagesController : BaseController
 {
@@ -80,8 +78,24 @@ public class ImagesController : BaseController
         if (!ModelState.IsValid)
         {
             ViewBag.Message = "Please correct the errors in the form!";
+            ViewBag.ImageErrorMessage = "No image file specified!";
+            ViewBag.ImageNotUploaded = true;
+            if (ModelState["DateTaken"]?.Errors.Count > 0)
+            {
+
+                ModelState["DateTaken"].Errors.Clear();
+                ModelState.AddModelError("DateTaken", "Please Enter Valid Date");
+            }
             imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
-            return View();
+            return View(imageView);
+        }
+
+        if (imageView.ImageFile == null || imageView.ImageFile.Length <= 0)
+        {
+            ViewBag.ImageErrorMessage = "No image file specified!";
+            ViewBag.ImageNotUploaded = true;
+            imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
+            return View(imageView);
         }
 
         var user = await db.Users.SingleOrDefaultAsync(u => u.Username.Equals(Username));
@@ -92,23 +106,19 @@ public class ImagesController : BaseController
             return View(imageView);
         }
 
-        if (imageView.ImageFile == null || imageView.ImageFile.Length <= 0)
-        {
-            ViewBag.Message = "No image file specified!";
-            imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
-            return View(imageView);
-        }
 
         // TODO save image metadata in the database
-        var selectedTag = db.Tags.Where(x => x.Id == imageView.TagId).Select(x => x).ToList()[0];
-        Image metadataImage = new Image
+        var selectedTag = await db.Tags.SingleOrDefaultAsync(x => x.Id.Equals(imageView.TagId));
+        
+        var metadataImage = new Image
         {
-            //Id = 0,
             Caption = imageView.Caption,
             Description = imageView.Description,
             DateTaken = imageView.DateTaken,
             UserId = user.Id,
             TagId = selectedTag.Id,
+            User = user,
+            Tag = selectedTag
         };
         await db.Images.AddAsync(metadataImage);
         await db.SaveChangesAsync();
@@ -117,14 +127,14 @@ public class ImagesController : BaseController
         mkDirectories();
 
         // TODO save image file on disk
-        using (FileStream DestinationStream = SysIOFile.Create(imageDataFile(imageView.Id)))
+        using (var DestinationStream = SysIOFile.Create(imageDataFile(metadataImage.Id)))
         {
             await imageView.ImageFile.CopyToAsync(DestinationStream);
         }
 
         // end TODO
 
-        return RedirectToAction("Details", new { imageView.Id });
+        return RedirectToAction("Details", new { metadataImage.Id });
     }
 
     [HttpGet]
