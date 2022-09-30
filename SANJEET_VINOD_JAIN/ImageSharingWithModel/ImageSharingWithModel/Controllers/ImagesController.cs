@@ -309,15 +309,15 @@ public class ImagesController : BaseController
         CheckAda();
         if (GetLoggedInUser() == null) return ForceLogin();
 
-        // TODO Return form for selecting a user from a drop-down list
+        // TODO-DONE Return form for selecting a user from a drop-down list
         ListByUserView userView = new ListByUserView();
         userView.Users = new SelectList(db.Users, "Id", "Username", 1);
 
-        // TODO
+        // TODO-DONE
         return View(userView);
     }
 
-    //TODO
+    //TODO-DONE
     [HttpPost]
     public async Task<IActionResult> DoListByUser(ListByUserView userView)
     {
@@ -325,7 +325,7 @@ public class ImagesController : BaseController
         var Username = GetLoggedInUser();
         if (Username == null) return ForceLogin();
 
-        // TODO list all images uploaded by the user in userView (see List By Tag)
+        // TODO-DONE list all images uploaded by the user in userView (see List By Tag)
         var user = await db.Users.FindAsync(userView.Id);
         if (user == null) return RedirectToAction("Error", "Home", new { ErrId = "ListByUser" });
         ViewBag.Username = Username;
@@ -333,11 +333,11 @@ public class ImagesController : BaseController
          * Eager loading of related entities
          */
         var images = db.Entry(user).Collection(t => t.Images).Query().Include(im => im.User).Include(t=>t.Tag).ToList();
-        // TODO
+        // TODO-DONE
         return View("ListAll", user.Images);
     }
 
-    //TODO
+    //TODO-DONE
     [HttpGet]
     public IActionResult ListByTag()
     {
@@ -349,7 +349,7 @@ public class ImagesController : BaseController
         return View(tagView);
     }
 
-    //TODO
+    //TODO-DONE
     [HttpPost]
     public async Task<IActionResult> DoListByTag(ListByTagViewModel tagView)
     {

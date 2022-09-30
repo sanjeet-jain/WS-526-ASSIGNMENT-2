@@ -29,14 +29,14 @@
         <p>Image id: @Model.Id</p>
 
         <p>
-            Caption: <!-- TODO -->
+                Caption: <!-- TODO-DONE -->
             <input asp-for="Caption"/>
             <br/>
             <span class="text-danger" asp-validation-for="Caption"></span>
 
         </p>
         <p>
-            Select a tag: <!-- TODO -->
+                Select a tag: <!-- TODO-DONE -->
             <select asp-for="TagId" asp-items="Model.Tags">
                 <option disabled selected value="">Select a tag</option>
             </select>
@@ -45,13 +45,13 @@
 
         </p>
         <p>
-            Description:<br/> <!-- TODO -->
+                Description:<br /> <!-- TODO-DONE -->
             <textarea asp-for="Description" cols="40" rows="5">Enter description here.</textarea>
             <br/>
             <span class="text-danger" asp-validation-for="Description"></span>
         </p>
         <p>
-            Date taken: <!-- TODO -->
+                Date taken: <!-- TODO-DONE -->
             <label asp-for="DateTaken"/>
             <input asp-for="DateTaken"/>
             <br />
