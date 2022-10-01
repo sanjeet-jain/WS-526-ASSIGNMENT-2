@@ -286,7 +286,10 @@ public class ImagesController : BaseController
         //db.Entry(imageEntity).State = EntityState.Deleted;
         db.Images.Remove(image);
         await db.SaveChangesAsync();
-        return RedirectToAction("Index", "Home");
+
+        SysIOFile.Delete(imageDataFile(image.Id));
+
+        return RedirectToAction("Index", "Home", new { Username = Username });
     }
 
     //TODO-DONE

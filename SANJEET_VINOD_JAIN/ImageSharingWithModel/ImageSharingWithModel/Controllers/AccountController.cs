@@ -65,7 +65,7 @@ public class AccountController : BaseController
 
 
             await db.SaveChangesAsync();
-            SaveCookie("ADA", User.ADA.ToString().ToLower());
+            SaveCookies(info.Username, User.ADA);
 
             return RedirectToAction("Index", "Home", new { info.Username });
         }
